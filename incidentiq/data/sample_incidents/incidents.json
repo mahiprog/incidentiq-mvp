@@ -1,0 +1,24 @@
+[
+  {
+    "incident_id": "INC-001",
+    "service": "payment-api",
+    "severity": "critical",
+    "error_rate": 18,
+    "error": "502 Bad Gateway",
+    "recent_change": "payment-config-v2",
+    "root_cause": "Invalid payment configuration",
+    "resolution": "Rollback configuration",
+    "result": "Error rate reduced from 18% to 1%"
+  },
+  {
+    "incident_id": "INC-002",
+    "service": "checkout-api",
+    "severity": "high",
+    "error_rate": 12,
+    "error": "Database connection timeout",
+    "recent_change": "checkout-release-41",
+    "root_cause": "Connection pool exhaustion",
+    "resolution": "Increase pool and restart workers",
+    "result": "Checkout latency returned to normal"
+  }
+]
