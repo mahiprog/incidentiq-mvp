@@ -12,6 +12,7 @@ from backend.tools.incidents import (
     get_incident,
     list_incidents,
 )
+from backend.tools.detector import detect_incident
 
 app = FastAPI(
     title="IncidentIQ API",
@@ -51,6 +52,34 @@ class ResolutionRequest(BaseModel):
     result: str
     service: str = ""
     error: str = ""
+
+
+# ---------------------------------------------------------
+# Live Monitor — auto-detect incident from metrics + logs
+# ---------------------------------------------------------
+
+@app.get("/monitor/{service}")
+def monitor(service: str):
+    incident = detect_incident(service)
+    if not incident:
+        return {"status": "healthy", "service": service}
+    return {"status": "incident_detected", "incident": incident}
+
+
+@app.get("/monitor/{service}/investigate")
+def monitor_and_investigate(service: str):
+    incident = detect_incident(service)
+    if not incident:
+        return {"status": "healthy", "service": service}
+    investigation = investigate_incident(incident)
+    return {
+        "status": "incident_detected",
+        "incident": incident,
+        "investigation": investigation["investigation"],
+        "historical_memories": investigation["historical_memories"],
+        "local_matches": investigation["local_matches"],
+        "recommendation_prompt": investigation["recommendation_prompt"],
+    }
 
 
 # ---------------------------------------------------------

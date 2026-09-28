@@ -20,5 +20,71 @@
     "root_cause": "Connection pool exhaustion",
     "resolution": "Increase pool and restart workers",
     "result": "Checkout latency returned to normal"
+  },
+  {
+    "incident_id": "INC-003",
+    "service": "payment-api",
+    "severity": "critical",
+    "error_rate": 15,
+    "error": "502 Bad Gateway",
+    "recent_change": "payment-config-v1",
+    "root_cause": "Incorrect upstream endpoint configuration",
+    "resolution": "Rollback configuration",
+    "result": "Error rate reduced from 15% to 2%"
+  },
+  {
+    "incident_id": "INC-004",
+    "service": "auth-service",
+    "severity": "critical",
+    "error_rate": 22,
+    "error": "JWT validation failure",
+    "recent_change": "auth-keys-rotation-v3",
+    "root_cause": "Expired signing key not rotated in all regions",
+    "resolution": "Propagate new signing key to all regions",
+    "result": "Auth failures dropped from 22% to 0.3%"
+  },
+  {
+    "incident_id": "INC-005",
+    "service": "notification-service",
+    "severity": "medium",
+    "error_rate": 8,
+    "error": "SMTP connection refused",
+    "recent_change": "smtp-config-update",
+    "root_cause": "Incorrect SMTP relay host after config update",
+    "resolution": "Revert SMTP relay host to previous value",
+    "result": "Email delivery restored within 3 minutes"
+  },
+  {
+    "incident_id": "INC-006",
+    "service": "inventory-api",
+    "severity": "high",
+    "error_rate": 14,
+    "error": "Redis connection timeout",
+    "recent_change": "cache-layer-upgrade",
+    "root_cause": "Cache eviction policy misconfigured after upgrade",
+    "resolution": "Reset eviction policy to allkeys-lru",
+    "result": "Cache hit rate restored to 94%"
+  },
+  {
+    "incident_id": "INC-007",
+    "service": "checkout-api",
+    "severity": "critical",
+    "error_rate": 19,
+    "error": "Database connection timeout",
+    "recent_change": "checkout-release-45",
+    "root_cause": "N+1 query introduced in release-45 exhausting pool",
+    "resolution": "Hotfix query, increase pool size temporarily",
+    "result": "Latency normalized, error rate dropped to 0.8%"
+  },
+  {
+    "incident_id": "INC-008",
+    "service": "payment-api",
+    "severity": "high",
+    "error_rate": 11,
+    "error": "TLS handshake timeout",
+    "recent_change": "tls-cert-renewal",
+    "root_cause": "Certificate chain incomplete after renewal",
+    "resolution": "Re-deploy full certificate chain",
+    "result": "TLS errors resolved, error rate dropped to 0.2%"
   }
 ]
